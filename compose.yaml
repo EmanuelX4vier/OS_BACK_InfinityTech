@@ -1,0 +1,9 @@
+services:
+  api:
+    image: crud-infinitytech
+    container_name: crud-api
+    restart: always
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
