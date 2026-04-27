@@ -1,7 +1,7 @@
 services:
   api:
-    image: crud-infinitytech
-    container_name: crud-api
+    image: os-infinitytech
+    container_name: os-api
     restart: always
     ports:
       - "8080:8080"
