@@ -15,6 +15,9 @@ logging:
   level:
     root: INFO
     org.hibernate.SQL: WARN
+    org.springframework.security: DEBUG
+    org.springframework.security.web.FilterChainProxy: DEBUG
+    org.springframework.web: DEBUG
 
 server:
   port: 8080
