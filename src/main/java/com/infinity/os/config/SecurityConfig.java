@@ -17,7 +17,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/users/**").permitAll() // Libera o CRUD para testes
                         .requestMatchers("/auth/login").permitAll() // Libera a porta de entrada
-                        .anyRequest().authenticated().anyRequest().authenticated()
+                        .anyRequest().authenticated()
                 );
         return http.build();
     }
