@@ -2,6 +2,7 @@ package com.infinity.os.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -18,7 +19,7 @@ public class SecurityConfig {
                         .requestMatchers("/users/**").permitAll() // Libera o CRUD para testes
                         .requestMatchers("/auth/login").permitAll() // Libera a porta de entrada
                         .anyRequest().authenticated()
-                );
+                ).httpBasic(Customizer.withDefaults());
         return http.build();
     }
 }
