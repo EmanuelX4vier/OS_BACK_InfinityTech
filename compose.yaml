@@ -1,6 +1,6 @@
 services:
   api:
-    image: os-infinitytech
+    image: os-back
     container_name: os-api
     restart: always
     ports:
