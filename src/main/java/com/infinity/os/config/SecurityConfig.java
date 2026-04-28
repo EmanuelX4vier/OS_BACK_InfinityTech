@@ -20,10 +20,10 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/users/**").hasRole("ADMIN")
+                        .requestMatchers("/users/**").permitAll()
                         .requestMatchers("/test/**").permitAll()
-                        .requestMatchers("/clients/**").authenticated()
-                        .requestMatchers("/equips/**").authenticated()
+                        .requestMatchers("/clients/**").permitAll()
+                        .requestMatchers("/equips/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults());
