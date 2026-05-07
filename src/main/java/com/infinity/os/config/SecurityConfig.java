@@ -1,5 +1,6 @@
 package com.infinity.os.config;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,11 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+    @PostConstruct
+    public void test() {
+        System.out.println(">>> SECURITY CONFIG ATIVA <<<");
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http){
