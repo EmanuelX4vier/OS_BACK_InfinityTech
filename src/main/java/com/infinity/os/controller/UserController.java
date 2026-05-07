@@ -17,6 +17,11 @@ public class UserController {
 
     private final UserService userService;
 
+    @GetMapping("/auth/check")
+    public ResponseEntity<String> check(){
+        return ResponseEntity.ok("OK");
+    }
+
     @PostMapping
     public ResponseEntity<UserResponseDTO> createUser(@RequestBody @Valid UserRequestDTO dto) {
         UserResponseDTO created = userService.createUser(dto);
