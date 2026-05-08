@@ -8,6 +8,8 @@ import com.infinity.os.exception.ProduNotFoundException;
 import com.infinity.os.mapper.ProduMapper;
 import com.infinity.os.repository.ProduRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,6 +30,11 @@ public class ProduServiceImpl implements ProduService{
     public ProduResponseDTO searchProdu(String codigo) {
         Produ produ = produRepository.findById(codigo).orElseThrow(ProduNotFoundException::new);
         return produMapper.toResponseDTO(produ);
+    }
+
+    public Page<ProduResponseDTO> listProdu(Pageable pageable){
+        return produRepository.findAll(pageable).map(produMapper::toResponseDTO);
+
     }
 
     @Override

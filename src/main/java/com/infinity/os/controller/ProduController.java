@@ -6,9 +6,15 @@ import com.infinity.os.dto.produdto.ProduUpdateDTO;
 import com.infinity.os.service.produ.ProduService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/products")
@@ -28,6 +34,12 @@ public class ProduController {
     public ResponseEntity<ProduResponseDTO> searchProdu(@PathVariable String codigo){
         ProduResponseDTO produ = produService.searchProdu(codigo);
         return ResponseEntity.ok(produ);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<ProduResponseDTO>> listProdu(@PageableDefault(size = 20, sort = "nome") Pageable pageable) {
+        Page<ProduResponseDTO> pagina = produService.listProdu(pageable);
+        return ResponseEntity.ok(pagina);
     }
 
     @PatchMapping("/{codigo}")
