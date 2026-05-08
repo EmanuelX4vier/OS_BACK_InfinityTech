@@ -26,6 +26,7 @@ public class Produ {
     @Column(nullable = false)
     private Status status;
 
-
+    @Column(name = "quantidade", nullable = true)
+    private Long quantidade;
 
 }

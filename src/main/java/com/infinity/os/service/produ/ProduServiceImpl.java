@@ -46,6 +46,8 @@ public class ProduServiceImpl implements ProduService{
             produ.setMarca(dto.getMarca());
         } else if (dto.getStatus() != null) {
             produ.setStatus(dto.getStatus());
+        } else if (dto.getQuantidade() != null) {
+            produ.setQuantidade(dto.getQuantidade());
         }
         Produ produUpdate = produRepository.save(produ);
         return produMapper.toResponseDTO(produUpdate);

@@ -24,6 +24,9 @@ public class ProduRequestDTO {
     @NotNull(message = "Status do produto é obrigatório!")
     private Status status;
 
+    @NotNull(message = "A quantidade é óbrigatória!")
+    private Long quantidade;
+
 
 
 

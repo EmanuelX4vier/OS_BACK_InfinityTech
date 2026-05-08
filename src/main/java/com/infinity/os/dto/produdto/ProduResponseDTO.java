@@ -14,4 +14,5 @@ public class ProduResponseDTO {
     private String nome;
     private String marca;
     private Status  status;
+    private Long quantidade;
 }
