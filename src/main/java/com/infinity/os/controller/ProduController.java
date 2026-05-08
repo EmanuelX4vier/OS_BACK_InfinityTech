@@ -1,7 +1,5 @@
 package com.infinity.os.controller;
 
-import com.infinity.os.dto.equipdto.EquipResponseDTO;
-import com.infinity.os.dto.equipdto.EquipUpdateDTO;
 import com.infinity.os.dto.produdto.ProduRequestDTO;
 import com.infinity.os.dto.produdto.ProduResponseDTO;
 import com.infinity.os.dto.produdto.ProduUpdateDTO;
