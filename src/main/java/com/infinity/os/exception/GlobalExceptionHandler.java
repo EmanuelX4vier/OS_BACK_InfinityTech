@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
         return errors;
     }
 
-    @ExceptionHandler({ClientNotFoundException.class, UserNotFoundException.class, EquipNotFoundException.class, UserOrPassException.class})
+    @ExceptionHandler({ClientNotFoundException.class, UserNotFoundException.class, EquipNotFoundException.class, UserOrPassException.class, ProduNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map<String, String> handleNotFoundExceptions(RuntimeException ex) {
         Map<String, String> error = new HashMap<>();

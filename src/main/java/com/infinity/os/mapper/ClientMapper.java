@@ -2,7 +2,7 @@ package com.infinity.os.mapper;
 
 import com.infinity.os.dto.clientdto.ClientRequestDTO;
 import com.infinity.os.dto.clientdto.ClientResponseDTO;
-import com.infinity.os.dto.equip.EquipResponseDTO;
+import com.infinity.os.dto.equipdto.EquipResponseDTO;
 import com.infinity.os.entity.Client;
 import lombok.*;
 import org.springframework.stereotype.Component;

@@ -1,7 +1,7 @@
 package com.infinity.os.mapper;
 
-import com.infinity.os.dto.equip.EquipRequestDTO;
-import com.infinity.os.dto.equip.EquipResponseDTO;
+import com.infinity.os.dto.equipdto.EquipRequestDTO;
+import com.infinity.os.dto.equipdto.EquipResponseDTO;
 import com.infinity.os.entity.Client;
 import com.infinity.os.entity.Equip;
 import org.springframework.stereotype.Component;

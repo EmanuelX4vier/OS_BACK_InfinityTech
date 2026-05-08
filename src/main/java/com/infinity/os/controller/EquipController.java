@@ -1,8 +1,8 @@
 package com.infinity.os.controller;
 
-import com.infinity.os.dto.equip.EquipRequestDTO;
-import com.infinity.os.dto.equip.EquipResponseDTO;
-import com.infinity.os.dto.equip.EquipUpdateDTO;
+import com.infinity.os.dto.equipdto.EquipRequestDTO;
+import com.infinity.os.dto.equipdto.EquipResponseDTO;
+import com.infinity.os.dto.equipdto.EquipUpdateDTO;
 import com.infinity.os.service.equip.EquipService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

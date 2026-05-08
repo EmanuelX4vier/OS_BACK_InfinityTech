@@ -1,8 +1,8 @@
 package com.infinity.os.service.equip;
 
-import com.infinity.os.dto.equip.EquipRequestDTO;
-import com.infinity.os.dto.equip.EquipResponseDTO;
-import com.infinity.os.dto.equip.EquipUpdateDTO;
+import com.infinity.os.dto.equipdto.EquipRequestDTO;
+import com.infinity.os.dto.equipdto.EquipResponseDTO;
+import com.infinity.os.dto.equipdto.EquipUpdateDTO;
 import com.infinity.os.entity.Client;
 import com.infinity.os.entity.Equip;
 import com.infinity.os.exception.ClientNotFoundException;
@@ -49,8 +49,11 @@ public class EquipServiceImpl implements EquipService {
         Equip equip = equipRepository.findById(serial)
                 .orElseThrow(EquipNotFoundException::new);
 
-        equip.setDescricao(dto.getDescricao());
-        equip.setStatus(dto.getStatus());
+        if(dto.getDescricao() != null){
+            equip.setDescricao(dto.getDescricao());
+        } else if (dto.getStatus() != null) {
+            equip.setStatus(dto.getStatus());
+        }
 
         Equip updatedEquip = equipRepository.save(equip);
 

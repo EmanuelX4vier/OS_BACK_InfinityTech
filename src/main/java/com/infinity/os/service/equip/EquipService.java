@@ -1,8 +1,8 @@
 package com.infinity.os.service.equip;
 
-import com.infinity.os.dto.equip.EquipRequestDTO;
-import com.infinity.os.dto.equip.EquipResponseDTO;
-import com.infinity.os.dto.equip.EquipUpdateDTO;
+import com.infinity.os.dto.equipdto.EquipRequestDTO;
+import com.infinity.os.dto.equipdto.EquipResponseDTO;
+import com.infinity.os.dto.equipdto.EquipUpdateDTO;
 
 public interface EquipService {
     EquipResponseDTO createEquip(EquipRequestDTO equipRequestDTO, Long clientId);
