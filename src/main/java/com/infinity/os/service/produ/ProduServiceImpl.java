@@ -7,6 +7,7 @@ import com.infinity.os.entity.Produ;
 import com.infinity.os.exception.ProduNotFoundException;
 import com.infinity.os.mapper.ProduMapper;
 import com.infinity.os.repository.ProduRepository;
+import com.infinity.os.types.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -48,6 +49,11 @@ public class ProduServiceImpl implements ProduService{
             produ.setStatus(dto.getStatus());
         } else if (dto.getQuantidade() != null) {
             produ.setQuantidade(dto.getQuantidade());
+            if(dto.getQuantidade() == 0){
+                produ.setStatus(Status.FALTA);
+            } else{
+                produ.setStatus(Status.EM_ESTOQUE);
+            }
         }
         Produ produUpdate = produRepository.save(produ);
         return produMapper.toResponseDTO(produUpdate);
