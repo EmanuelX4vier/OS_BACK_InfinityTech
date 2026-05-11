@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 public class ProduMapper {
 
     public Produ toEntity(ProduRequestDTO produDTO) {
-        return Produ.builder().codigo(produDTO.getCodigo()).nome(produDTO.getNome()).marca(produDTO.getMarca()).status(produDTO.getStatus()).quantidade(produDTO.getQuantidade()).build();
+        return Produ.builder().codigo(produDTO.getCodigo()).nome(produDTO.getNome()).marca(produDTO.getMarca()).status(produDTO.getStatus()).quantidade(produDTO.getQuantidade()).valorDeCompra(produDTO.getValorDeCompra()).valorDeVenda(produDTO.getValorDeVenda()).build();
     }
 
     public ProduResponseDTO toResponseDTO(Produ entity){
-        ProduResponseDTO produResponseDTO = new ProduResponseDTO(entity.getCodigo(), entity.getNome(), entity.getMarca(), entity.getStatus(), entity.getQuantidade());
+        ProduResponseDTO produResponseDTO = new ProduResponseDTO(entity.getCodigo(), entity.getNome(), entity.getMarca(), entity.getStatus(), entity.getQuantidade(), entity.getValorDeCompra(), entity.getValorDeVenda());
         return produResponseDTO;
     }
 }

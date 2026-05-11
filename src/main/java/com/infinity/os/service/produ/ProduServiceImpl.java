@@ -40,21 +40,38 @@ public class ProduServiceImpl implements ProduService{
 
     @Override
     public ProduResponseDTO updateProdu(String codigo, ProduUpdateDTO dto) {
+
         Produ produ = produRepository.findById(codigo).orElseThrow(ProduNotFoundException::new);
+
         if(dto.getNome() != null){
             produ.setNome(dto.getNome());
-        } else if (dto.getMarca() != null) {
+        }
+
+        if (dto.getMarca() != null) {
             produ.setMarca(dto.getMarca());
-        } else if (dto.getStatus() != null) {
+        }
+
+        if (dto.getStatus() != null) {
             produ.setStatus(dto.getStatus());
-        } else if (dto.getQuantidade() != null) {
+        }
+
+        if (dto.getQuantidade() != null) {
             produ.setQuantidade(dto.getQuantidade());
             if(dto.getQuantidade() == 0){
-                produ.setStatus(Status.FALTA);
+                produ.setStatus(Status.INDISPONIVEL);
             } else{
-                produ.setStatus(Status.EM_ESTOQUE);
+                produ.setStatus(Status.DISPONIVEL);
             }
         }
+
+        if (dto.getValorDeCompra() != null){
+            produ.setValorDeCompra(dto.getValorDeCompra());
+        }
+
+        if(dto.getValorDeVenda() != null){
+            produ.setValorDeVenda(dto.getValorDeVenda());
+        }
+
         Produ produUpdate = produRepository.save(produ);
         return produMapper.toResponseDTO(produUpdate);
     }

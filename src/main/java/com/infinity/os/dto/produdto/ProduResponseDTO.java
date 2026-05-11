@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,4 +17,6 @@ public class ProduResponseDTO {
     private String marca;
     private Status  status;
     private Long quantidade;
+    private BigDecimal valorDeCompra;
+    private BigDecimal valorDeVenda;
 }

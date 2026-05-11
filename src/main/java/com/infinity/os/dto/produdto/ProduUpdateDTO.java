@@ -5,14 +5,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProduUpdateDTO {
 
+    private String codigo;
     private String nome;
     private String marca;
-    private Status status;
+    private Status  status;
     private Long quantidade;
+    private BigDecimal valorDeCompra;
+    private BigDecimal valorDeVenda;
 
 }

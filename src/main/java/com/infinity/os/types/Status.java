@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 
 public enum Status {
 
-    ANDAMENTO, CONCLUIDO, SEM_SERVICO, EM_ESPERA, AUTORIZADO, FALTA, EM_ESTOQUE;
+    ANDAMENTO, CONCLUIDO, AGUARDANDO, AUTORIZADO, DISPONIVEL, INDISPONIVEL;
 
     @JsonCreator
     public static Status forValue(String value) {

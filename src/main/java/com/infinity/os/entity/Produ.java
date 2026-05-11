@@ -4,6 +4,8 @@ import com.infinity.os.types.Status;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "products")
 @Getter
@@ -28,5 +30,11 @@ public class Produ {
 
     @Column(name = "quantidade", nullable = true)
     private Long quantidade;
+
+    @Column(nullable = true)
+    private BigDecimal valorDeCompra;
+
+    @Column(nullable = true)
+    private BigDecimal valorDeVenda;
 
 }

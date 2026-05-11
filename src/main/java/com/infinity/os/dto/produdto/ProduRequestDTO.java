@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,7 +29,10 @@ public class ProduRequestDTO {
     @NotNull(message = "A quantidade é óbrigatória!")
     private Long quantidade;
 
+    @NotNull(message = "O valor de compra é obrigatório!")
+    private BigDecimal valorDeCompra;
 
-
+    @NotNull(message = "O valor de venda é obrigatório!")
+    private BigDecimal valorDeVenda;
 
 }
