@@ -1,4 +1,4 @@
-package com.infinity.os.service.user.security;
+package com.infinity.os.security;
 
 import com.infinity.os.entity.User;
 import com.infinity.os.repository.UserRepository;
@@ -10,16 +10,19 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class CustomDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) {
-
-        User user = userRepository.findByNome(username)
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
-
-        return new UserDetailsImpl(user);
+        return org.springframework.security.core.userdetails.User
+                .builder()
+                .username(user.getEmail())
+                .password(user.getSenha())
+                .roles(user.getFuncao().name())
+                .build();
     }
 }

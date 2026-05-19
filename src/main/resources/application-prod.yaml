@@ -8,16 +8,19 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     open-in-view: false
+
+# CORRIGIDO: jwt deve estar no nível raiz, não dentro de spring:
+jwt:
+  secret: ${JWT_SECRET}
+  refresh-token-expiration-days: 7
 
 logging:
   level:
     root: INFO
     org.hibernate.SQL: WARN
-    org.springframework.security: DEBUG
-    org.springframework.security.web.FilterChainProxy: DEBUG
-    org.springframework.web: DEBUG
+    org.springframework.security: WARN
 
 server:
   port: 8080

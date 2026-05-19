@@ -14,13 +14,12 @@ public class UserMapper {
     private final PasswordEncoder passwordEncoder;
 
     public User toEntity (UserRequestDTO dto){
-        String senha = passwordEncoder.encode(dto.getSenha());
-        User user = User.builder().nome(dto.getNome()).senha(senha).funcao(dto.getFuncao()).build();
+        User user = User.builder().nome(dto.getNome()).email(dto.getEmail()).senha(dto.getSenha()).funcao(dto.getFuncao()).build();
         return user;
     }
 
     public UserResponseDTO toResponseDTO(User entity){
-        UserResponseDTO userResponseDTO = new UserResponseDTO(entity.getId(), entity.getNome(), entity.getFuncao(), entity.getDataCadastro());
+        UserResponseDTO userResponseDTO = new UserResponseDTO(entity.getId(), entity.getNome(), entity.getEmail(), entity.getFuncao(), entity.getDataCadastro());
         return userResponseDTO;
     }
 }

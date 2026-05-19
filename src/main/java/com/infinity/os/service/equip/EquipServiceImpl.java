@@ -28,7 +28,6 @@ public class EquipServiceImpl implements EquipService {
                 .orElseThrow(ClientNotFoundException::new);
 
         Equip equip = equipMapper.toEntity(equipDTO, client);
-
         Equip savedEquip = equipRepository.save(equip);
 
         return equipMapper.toResponseDTO(savedEquip);
@@ -49,9 +48,10 @@ public class EquipServiceImpl implements EquipService {
         Equip equip = equipRepository.findById(serial)
                 .orElseThrow(EquipNotFoundException::new);
 
-        if(dto.getDescricao() != null){
+        if (dto.getDescricao() != null) {
             equip.setDescricao(dto.getDescricao());
-        } else if (dto.getStatus() != null) {
+        }
+        if (dto.getStatus() != null) {
             equip.setStatus(dto.getStatus());
         }
 

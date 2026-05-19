@@ -1,6 +1,5 @@
 package com.infinity.os.controller;
 
-import com.infinity.os.dto.userdto.UserRequestDTO;
 import com.infinity.os.dto.userdto.UserResponseDTO;
 import com.infinity.os.dto.userdto.UserUpdateDTO;
 import com.infinity.os.service.user.UserService;
@@ -16,17 +15,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-
-    @GetMapping("/auth/check")
-    public ResponseEntity<String> check(){
-        return ResponseEntity.ok("OK");
-    }
-
-    @PostMapping
-    public ResponseEntity<UserResponseDTO> createUser(@RequestBody @Valid UserRequestDTO dto) {
-        UserResponseDTO created = userService.createUser(dto);
-        return ResponseEntity.status(201).body(created);
-    }
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponseDTO> searchUser(@PathVariable Long userId) {
