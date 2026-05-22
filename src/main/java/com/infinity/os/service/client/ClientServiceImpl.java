@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Service
@@ -37,7 +36,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     // =======================================================
-    // LISTAR CLIENTES CORRIGIDO COM DEFENSA ABSOLUTA CONTRA BUG
+    // LISTAR CLIENTES - CORRIGIDO PARA O NOVO FORMATO DO DTO
     // =======================================================
     public Page<ClientResponseDTO> listClient(Pageable pageable) {
         try {
@@ -47,19 +46,19 @@ public class ClientServiceImpl implements ClientService {
                 return Page.empty(pageable);
             }
 
-            // Mapeamento manual de contingência caso o seu clientMapper quebre internamente
             return clients.map(client -> {
                 try {
                     return clientMapper.toResponseDTO(client);
                 } catch (Exception mapperException) {
                     System.err.println("Erro interno no ClientMapper: " + mapperException.getMessage());
-                    // Fallback: Constrói um DTO básico seguro se o Mapper falhar com objetos nulos/estruturas
+
+                    // Fallback seguro: Usa setDataFormatada para bater com a propriedade atualizada do DTO
                     ClientResponseDTO fallbackDto = new ClientResponseDTO();
                     fallbackDto.setId(client.getId());
                     fallbackDto.setNome(client.getNome());
                     fallbackDto.setTelefone(client.getTelefone());
                     fallbackDto.setEndereco(client.getEndereco());
-                    fallbackDto.setDataCadastro(client.getDataCadastro() != null ? LocalDateTime.parse(client.getDataCadastro().toString()) : null);
+                    fallbackDto.setDataFormatada(client.getDataCadastro() != null ? client.getDataCadastro().toString() : null);
                     return fallbackDto;
                 }
             });
