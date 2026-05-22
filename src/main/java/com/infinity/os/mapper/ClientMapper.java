@@ -2,17 +2,12 @@ package com.infinity.os.mapper;
 
 import com.infinity.os.dto.clientdto.ClientRequestDTO;
 import com.infinity.os.dto.clientdto.ClientResponseDTO;
-import com.infinity.os.dto.equipdto.EquipResponseDTO;
 import com.infinity.os.entity.Client;
-import lombok.*;
 import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor
 public class ClientMapper {
-
-    private final EquipMapper equipMapper;
 
     public Client toEntity (ClientRequestDTO dto){
         return Client.builder()
@@ -23,17 +18,15 @@ public class ClientMapper {
     }
 
     public ClientResponseDTO toResponseDTO(Client entity){
-        List<EquipResponseDTO> equipsDTO = (entity.getEquips() == null)
-                ? List.of()
-                : entity.getEquips().stream().map(equipMapper::toResponseDTO).toList();
-
+        // Retornamos a lista vazia ou nula para os equipamentos aqui,
+        // evitando quebras de dependência circular no carregamento dos Bean do Spring.
         return new ClientResponseDTO(
                 entity.getId(),
                 entity.getNome(),
                 entity.getTelefone(),
                 entity.getEndereco(),
-                equipsDTO,
-                entity.getDataCadastro() // Passando o LocalDateTime puro como antes
+                List.of(), // Limpa a dependência que gerava o erro interno
+                entity.getDataCadastro()
         );
     }
 }
