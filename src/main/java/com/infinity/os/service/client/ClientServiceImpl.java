@@ -3,11 +3,14 @@ package com.infinity.os.service.client;
 import com.infinity.os.dto.clientdto.ClientRequestDTO;
 import com.infinity.os.dto.clientdto.ClientResponseDTO;
 import com.infinity.os.dto.clientdto.ClientUpdateDTO;
+import com.infinity.os.dto.produdto.ProduResponseDTO;
 import com.infinity.os.entity.Client;
 import com.infinity.os.exception.ClientNotFoundException;
 import com.infinity.os.mapper.ClientMapper;
 import com.infinity.os.repository.ClientRepository;
 import lombok.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,11 +28,17 @@ public class ClientServiceImpl implements ClientService{
         return clientMapper.toResponseDTO(savedClient);
     }
 
+
     @Override
     public ClientResponseDTO searchClient(Long id) {
 
         Client client = clientRepository.findById(id).orElseThrow(ClientNotFoundException::new);
         return clientMapper.toResponseDTO(client);
+    }
+
+    public Page<ClientResponseDTO> listClient(Pageable pageable){
+        return clientRepository.findAll(pageable).map(clientMapper::toResponseDTO);
+
     }
 
     @Override

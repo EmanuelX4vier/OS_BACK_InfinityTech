@@ -3,6 +3,7 @@ package com.infinity.os.service.equip;
 import com.infinity.os.dto.equipdto.EquipRequestDTO;
 import com.infinity.os.dto.equipdto.EquipResponseDTO;
 import com.infinity.os.dto.equipdto.EquipUpdateDTO;
+import com.infinity.os.dto.produdto.ProduResponseDTO;
 import com.infinity.os.entity.Client;
 import com.infinity.os.entity.Equip;
 import com.infinity.os.exception.ClientNotFoundException;
@@ -11,6 +12,8 @@ import com.infinity.os.mapper.EquipMapper;
 import com.infinity.os.repository.ClientRepository;
 import com.infinity.os.repository.EquipRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -40,6 +43,13 @@ public class EquipServiceImpl implements EquipService {
                 .orElseThrow(EquipNotFoundException::new);
 
         return equipMapper.toResponseDTO(equip);
+    }
+
+    public Page<EquipResponseDTO> listEquip(Pageable pageable){
+        return equipRepository.findAll(pageable).map(equipMapper
+
+                ::toResponseDTO);
+
     }
 
     @Override
