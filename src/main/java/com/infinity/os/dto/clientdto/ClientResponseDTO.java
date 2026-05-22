@@ -1,14 +1,15 @@
 package com.infinity.os.dto.clientdto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.infinity.os.dto.equipdto.EquipResponseDTO;
 import lombok.*;
-import java.time.LocalDateTime;
+
 import java.util.List;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ClientResponseDTO {
 
     private Long id;
@@ -17,7 +18,6 @@ public class ClientResponseDTO {
     private String endereco;
     private List<EquipResponseDTO> equips;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
-    private LocalDateTime dataCadastro;
-
+    // Alterado o tipo para String para casar perfeitamente com a formatação vinda do Mapper
+    private String dataFormatada;
 }
