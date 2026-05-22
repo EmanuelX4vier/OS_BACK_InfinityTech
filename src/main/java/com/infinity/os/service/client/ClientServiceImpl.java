@@ -13,8 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-
 @Service
 @RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService {
@@ -35,44 +33,15 @@ public class ClientServiceImpl implements ClientService {
         return clientMapper.toResponseDTO(client);
     }
 
-    // =======================================================
-    // LISTAR CLIENTES - CORRIGIDO PARA O NOVO FORMATO DO DTO
-    // =======================================================
     public Page<ClientResponseDTO> listClient(Pageable pageable) {
-        try {
-            Page<Client> clients = clientRepository.findAll(pageable);
-
-            if (clients == null || clients.isEmpty()) {
-                return Page.empty(pageable);
-            }
-
-            return clients.map(client -> {
-                try {
-                    return clientMapper.toResponseDTO(client);
-                } catch (Exception mapperException) {
-                    System.err.println("Erro interno no ClientMapper: " + mapperException.getMessage());
-
-                    // Fallback seguro: Usa setDataFormatada para bater com a propriedade atualizada do DTO
-                    ClientResponseDTO fallbackDto = new ClientResponseDTO();
-                    fallbackDto.setId(client.getId());
-                    fallbackDto.setNome(client.getNome());
-                    fallbackDto.setTelefone(client.getTelefone());
-                    fallbackDto.setEndereco(client.getEndereco());
-                    fallbackDto.setDataFormatada(client.getDataCadastro() != null ? client.getDataCadastro().toString() : null);
-                    return fallbackDto;
-                }
-            });
-
-        } catch (Exception e) {
-            System.err.println("Erro crítico ao listar clientes no repositório: " + e.getMessage());
-            return Page.empty(pageable);
-        }
+        return clientRepository.findAll(pageable).map(clientMapper::toResponseDTO);
     }
 
     @Override
     public ClientResponseDTO updateClient(Long id, ClientUpdateDTO dto) {
         Client client = clientRepository.findById(id).orElseThrow(ClientNotFoundException::new);
 
+        // Mantive os IFs separados para permitir atualizar nome, telefone e endereço juntos!
         if (dto.getNome() != null) {
             client.setNome(dto.getNome());
         }
