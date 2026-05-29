@@ -3,8 +3,6 @@ package com.infinity.os.controller;
 import com.infinity.os.dto.clientdto.ClientRequestDTO;
 import com.infinity.os.dto.clientdto.ClientResponseDTO;
 import com.infinity.os.dto.clientdto.ClientUpdateDTO;
-import com.infinity.os.dto.produdto.ProduResponseDTO;
-import com.infinity.os.service.client.ClientService;
 import com.infinity.os.service.client.ClientServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -9,7 +9,10 @@ import org.springframework.data.domain.Pageable;
 public interface ProduService {
     ProduResponseDTO createProdu(ProduRequestDTO dto);
     ProduResponseDTO searchProdu(String codigo);
+    Page<ProduResponseDTO> searchFor(String termo, Pageable pageable);
     Page<ProduResponseDTO> listProdu(Pageable pageable);
     ProduResponseDTO updateProdu(String codigo, ProduUpdateDTO dto);
     void deleteProdu(String codigo);
+
+
 }

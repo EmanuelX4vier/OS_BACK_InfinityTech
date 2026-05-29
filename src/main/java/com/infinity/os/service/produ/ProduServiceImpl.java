@@ -35,7 +35,14 @@ public class ProduServiceImpl implements ProduService{
 
     public Page<ProduResponseDTO> listProdu(Pageable pageable){
         return produRepository.findAll(pageable).map(produMapper::toResponseDTO);
+    }
 
+    public Page<ProduResponseDTO> searchFor (String termo, Pageable pageable){
+        if (termo == null || termo.trim().isEmpty()) {
+            return produRepository.findAll(pageable).map(produMapper::toResponseDTO);
+        }
+        String termoTratado = termo.trim().toUpperCase();
+        return produRepository.globalSearch(termoTratado, pageable).map(produMapper::toResponseDTO);
     }
 
     @Override

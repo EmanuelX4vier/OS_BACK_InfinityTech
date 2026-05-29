@@ -39,6 +39,12 @@ public class ProduController {
         return ResponseEntity.ok(pagina);
     }
 
+    @GetMapping("/searchfor")
+    public ResponseEntity<Page<ProduResponseDTO>> searchFor(@RequestParam(value = "termo", required = false) String termo, @PageableDefault(size = 20, sort = "nome") Pageable pageable){
+        Page<ProduResponseDTO> pagina = produService.searchFor(termo, pageable);
+        return ResponseEntity.ok(pagina);
+    }
+
     @PatchMapping("/{codigo}")
     public ResponseEntity<ProduResponseDTO> updateEquip(@PathVariable String codigo,
                                                         @RequestBody @Valid ProduUpdateDTO dto) {
