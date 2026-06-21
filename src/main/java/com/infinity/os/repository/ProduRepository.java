@@ -9,10 +9,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface ProduRepository extends JpaRepository<Produ, String> {
     Page<Produ> findAllByNomeContainingIgnoreCase(String nome, Pageable pageable);
-
     @Query("SELECT p FROM Produ p WHERE " +
-            "p.codigo LIKE CONCAT('%', :termo, '%') OR " +
-            "p.nome LIKE CONCAT('%', :termo, '%') OR " +
-            "p.marca LIKE CONCAT('%', :termo, '%')")
-    Page<Produ> globalSearch(@Param("termo") String termo, Pageable pageable);
+            "LOWER(p.codigo) LIKE LOWER(CONCAT('%', :termo, '%')) OR " +
+            "LOWER(p.nome) LIKE LOWER(CONCAT('%', :termo, '%')) OR " +
+            "LOWER(p.marca) LIKE LOWER(CONCAT('%', :termo, '%'))")
+    Page<Produ> globalSearch(@Param("termo") String termo, Pageable pageable);;
 }

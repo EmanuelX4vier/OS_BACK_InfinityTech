@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/products")
 @RequiredArgsConstructor
 
-public class ProduController {
+public class  ProduController {
 
     private final ProduService produService;
 
