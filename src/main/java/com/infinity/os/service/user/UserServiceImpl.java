@@ -1,6 +1,5 @@
 package com.infinity.os.service.user;
 
-import com.infinity.os.dto.userdto.UserRequestDTO;
 import com.infinity.os.dto.userdto.UserResponseDTO;
 import com.infinity.os.dto.userdto.UserUpdateDTO;
 import com.infinity.os.entity.User;
@@ -8,7 +7,6 @@ import com.infinity.os.exception.UserNotFoundException;
 import com.infinity.os.mapper.UserMapper;
 import com.infinity.os.repository.UserRepository;
 import lombok.*;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,23 +15,11 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final PasswordEncoder passwordEncoder;
 
-    public UserResponseDTO createUser(UserRequestDTO dto) {
+    //CRUD
+    //Create *Somente em AuthService*
 
-        //Cria a entidade.
-        User user = userMapper.toEntity(dto);
-
-        //Criptografa senha.
-        user.setSenha(passwordEncoder.encode(dto.getSenha()));
-
-        //Salva no banco.
-        User savedUser = userRepository.save(user);
-
-        //Retorna as informações em forma de DTO para o usuário.
-        return userMapper.toResponseDTO(savedUser);
-    }
-
+    //Read
     public UserResponseDTO searchUser (Long id){
 
         //Procura no banco.
@@ -43,6 +29,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.toResponseDTO(user);
     }
 
+    //Update
     public UserResponseDTO updateUser (Long id, UserUpdateDTO dto){
 
         User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
@@ -61,6 +48,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.toResponseDTO(updatedUser);
     }
 
+    //Delete
     public void deleteUser(Long id) {
 
         //Verifica se o user existe.

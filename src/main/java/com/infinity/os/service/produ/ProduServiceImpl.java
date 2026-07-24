@@ -20,6 +20,9 @@ public class ProduServiceImpl implements ProduService{
     private final ProduRepository produRepository;
     private final ProduMapper produMapper;
 
+
+    //CRUD
+    //Create
     @Override
     public ProduResponseDTO createProdu(ProduRequestDTO dto) {
         Produ produ = produMapper.toEntity(dto);
@@ -27,6 +30,7 @@ public class ProduServiceImpl implements ProduService{
         return produMapper.toResponseDTO(produSaver);
     }
 
+    //Read
     @Override
     public ProduResponseDTO searchProdu(String codigo) {
         Produ produ = produRepository.findById(codigo).orElseThrow(ProduNotFoundException::new);
@@ -45,6 +49,7 @@ public class ProduServiceImpl implements ProduService{
         return produRepository.globalSearch(termoTratado, pageable).map(produMapper::toResponseDTO);
     }
 
+    //Update
     @Override
     public ProduResponseDTO updateProdu(String codigo, ProduUpdateDTO dto) {
 
@@ -83,6 +88,7 @@ public class ProduServiceImpl implements ProduService{
         return produMapper.toResponseDTO(produUpdate);
     }
 
+    //Delete
     @Override
     public void deleteProdu(String codigo) {
         if(!produRepository.existsById(codigo)){

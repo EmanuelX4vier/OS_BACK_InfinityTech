@@ -20,12 +20,15 @@ public class ClientController {
 
     private final ClientServiceImpl clientService;
 
+    //CRUD
+    //Create
     @PostMapping
     public ResponseEntity<ClientResponseDTO> createClient(@RequestBody @Valid ClientRequestDTO dto) {
         ClientResponseDTO created = clientService.createClient(dto);
         return ResponseEntity.status(201).body(created);
     }
 
+    //Read
     @GetMapping("/{clientId}")
     public ResponseEntity<ClientResponseDTO> searchClient(@PathVariable Long clientId) {
         ClientResponseDTO client = clientService.searchClient(clientId);
@@ -38,6 +41,7 @@ public class ClientController {
         return ResponseEntity.ok(pagina);
     }
 
+    //Update
     @PatchMapping("/{clientId}")
     public ResponseEntity<ClientResponseDTO> updateClient(
             @PathVariable Long clientId,
@@ -47,6 +51,7 @@ public class ClientController {
         return ResponseEntity.ok(updated);
     }
 
+    //Delete
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{clientId}")
     public void deleteClient(@PathVariable Long clientId) {

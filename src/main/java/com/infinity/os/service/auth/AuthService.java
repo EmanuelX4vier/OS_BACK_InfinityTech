@@ -26,23 +26,25 @@ public class AuthService {
     private final JwtService jwtService;
     private final RefreshTokenService refreshTokenService;
 
-    public void register(UserRequestDTO request) {
+    //Token
+    public AuthTokens refreshToken(String refreshToken) {
 
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new EmailAlreadyExistsException();
-        }
+        //Valida o refresh token (existência, expiração e revogação)
+        RefreshToken token = refreshTokenService.validateToken(refreshToken);
 
-        User user = User.builder()
-                .nome(request.getNome())
-                .email(request.getEmail())
-                .senha(passwordEncoder.encode(request.getSenha()))
-                .funcao(request.getFuncao())
-                .build();
+        User user = token.getUser();
 
-        userRepository.save(user);
+        //Gera novo acesso token
+        String newAccessToken = jwtService.generateToken(user.getEmail());
+
+        refreshTokenService.revokeToken(refreshToken);
+        //refreshTokenService.deleteToken(refreshToken);
+        RefreshToken newRefreshToken = refreshTokenService.createRefreshToken(user);
+
+        return new AuthTokens(newAccessToken, newRefreshToken.getToken());
     }
 
-
+    //Login - Logout - Register
     public AuthTokens login(LoginRequestDTO request) {
 
         Authentication authentication = authenticationManager.authenticate(
@@ -66,25 +68,24 @@ public class AuthService {
         );
     }
 
-    public AuthTokens refreshToken(String refreshToken) {
-
-        //Valida o refresh token (existência, expiração e revogação)
-        RefreshToken token = refreshTokenService.validateToken(refreshToken);
-
-        User user = token.getUser();
-
-        //Gera novo acesso token
-        String newAccessToken = jwtService.generateToken(user.getEmail());
-
-        refreshTokenService.revokeToken(refreshToken);
-        //refreshTokenService.deleteToken(refreshToken);
-        RefreshToken newRefreshToken = refreshTokenService.createRefreshToken(user);
-
-        return new AuthTokens(newAccessToken, newRefreshToken.getToken());
-    }
-
     public void logout(String refreshToken) {
 
         refreshTokenService.revokeToken(refreshToken);
+    }
+
+    public void register(UserRequestDTO request) {
+
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new EmailAlreadyExistsException();
+        }
+
+        User user = User.builder()
+                .nome(request.getNome())
+                .email(request.getEmail())
+                .senha(passwordEncoder.encode(request.getSenha()))
+                .funcao(request.getFuncao())
+                .build();
+
+        userRepository.save(user);
     }
 }

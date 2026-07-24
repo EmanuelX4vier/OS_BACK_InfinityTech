@@ -24,6 +24,8 @@ public class EquipServiceImpl implements EquipService {
     private final EquipRepository equipRepository;
     private final EquipMapper equipMapper;
 
+    //CRUD
+    //Create
     @Override
     public EquipResponseDTO createEquip(EquipRequestDTO equipDTO, Long clientId) {
 
@@ -36,6 +38,7 @@ public class EquipServiceImpl implements EquipService {
         return equipMapper.toResponseDTO(savedEquip);
     }
 
+    //Read
     @Override
     public EquipResponseDTO searchEquip(String serial) {
 
@@ -52,6 +55,7 @@ public class EquipServiceImpl implements EquipService {
 
     }
 
+    //Update
     @Override
     public EquipResponseDTO updateEquip(String serial, EquipUpdateDTO dto) {
 
@@ -70,6 +74,7 @@ public class EquipServiceImpl implements EquipService {
         return equipMapper.toResponseDTO(updatedEquip);
     }
 
+    //Delete
     @Override
     public void deleteEquip(String serial) {
 

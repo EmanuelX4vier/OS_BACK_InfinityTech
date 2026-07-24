@@ -3,7 +3,6 @@ package com.infinity.os.service.client;
 import com.infinity.os.dto.clientdto.ClientRequestDTO;
 import com.infinity.os.dto.clientdto.ClientResponseDTO;
 import com.infinity.os.dto.clientdto.ClientUpdateDTO;
-import com.infinity.os.dto.produdto.ProduResponseDTO;
 import com.infinity.os.entity.Client;
 import com.infinity.os.exception.ClientNotFoundException;
 import com.infinity.os.mapper.ClientMapper;
@@ -20,6 +19,8 @@ public class ClientServiceImpl implements ClientService {
     private final ClientRepository clientRepository;
     private final ClientMapper clientMapper;
 
+    //CRUD
+    //Create
     @Override
     public ClientResponseDTO createClient(ClientRequestDTO dto) {
         Client client = clientMapper.toEntity(dto);
@@ -27,6 +28,7 @@ public class ClientServiceImpl implements ClientService {
         return clientMapper.toResponseDTO(savedClient);
     }
 
+    //Read
     @Override
     public ClientResponseDTO searchClient(Long id) {
         Client client = clientRepository.findById(id).orElseThrow(ClientNotFoundException::new);
@@ -37,6 +39,7 @@ public class ClientServiceImpl implements ClientService {
         return clientRepository.findAll(pageable).map(clientMapper::toResponseDTO);
     }
 
+    //Update
     @Override
     public ClientResponseDTO updateClient(Long id, ClientUpdateDTO dto) {
         Client client = clientRepository.findById(id).orElseThrow(ClientNotFoundException::new);
@@ -56,6 +59,7 @@ public class ClientServiceImpl implements ClientService {
         return clientMapper.toResponseDTO(updateClient);
     }
 
+    //Delete
     @Override
     public void deleteClient(Long id) {
         if (!clientRepository.existsById(id)) {

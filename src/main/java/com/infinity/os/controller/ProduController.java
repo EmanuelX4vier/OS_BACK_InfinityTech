@@ -21,12 +21,15 @@ public class  ProduController {
 
     private final ProduService produService;
 
+    //CRUD
+    //Create
     @PostMapping
     public ResponseEntity<ProduResponseDTO> createProdu(@RequestBody @Valid ProduRequestDTO dto){
         ProduResponseDTO created = produService.createProdu(dto);
         return ResponseEntity.status(201).body(created);
     }
 
+    //Read
     @GetMapping("/{codigo}")
     public ResponseEntity<ProduResponseDTO> searchProdu(@PathVariable String codigo){
         ProduResponseDTO produ = produService.searchProdu(codigo);
@@ -45,6 +48,7 @@ public class  ProduController {
         return ResponseEntity.ok(pagina);
     }
 
+    //Update
     @PatchMapping("/{codigo}")
     public ResponseEntity<ProduResponseDTO> updateEquip(@PathVariable String codigo,
                                                         @RequestBody @Valid ProduUpdateDTO dto) {
@@ -52,6 +56,7 @@ public class  ProduController {
         return ResponseEntity.ok(update);
     }
 
+    //Delete
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{codigo}")
     public void deleteProdu(@PathVariable String codigo) {

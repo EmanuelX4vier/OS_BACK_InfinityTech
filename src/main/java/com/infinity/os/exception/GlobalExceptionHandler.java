@@ -5,6 +5,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.security.core.AuthenticationException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +31,7 @@ public class GlobalExceptionHandler {
         return error;
     }
 
-    @ExceptionHandler(UserOrPassException.class)
+    @ExceptionHandler({UserOrPassException.class, AuthenticationException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public Map<String, String> handleUnauthorized(RuntimeException ex) {
         Map<String, String> error = new HashMap<>();

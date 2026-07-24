@@ -16,12 +16,17 @@ public class UserController {
 
     private final UserService userService;
 
+    //CRUD
+    //Create
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponseDTO> searchUser(@PathVariable Long userId) {
         UserResponseDTO user = userService.searchUser(userId);
         return ResponseEntity.ok(user);
     }
 
+    //Read(todo)
+
+    //Update
     @PatchMapping("/{userId}")
     public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long userId,
                                       @RequestBody @Valid UserUpdateDTO dto) {
@@ -29,6 +34,7 @@ public class UserController {
         return ResponseEntity.ok(update);
     }
 
+    //Delete
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{userId}")
     public void deleteUser(@PathVariable Long userId) {

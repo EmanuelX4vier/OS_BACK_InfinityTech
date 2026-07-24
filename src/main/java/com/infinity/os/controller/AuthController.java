@@ -40,25 +40,7 @@ public class AuthController {
                 .build();
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<AuthResponseDTO> login(
-            @RequestBody @Valid LoginRequestDTO request
-    ) {
-        AuthTokens token = authService.login(request);
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, buildRefreshCookie(token.refreshToken()).toString())
-                .body(new AuthResponseDTO(token.accessToken()));
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<String> register(
-            @RequestBody @Valid UserRequestDTO request
-    ) {
-        authService.register(request);
-        return ResponseEntity.ok("Usuário cadastrado com sucesso");
-    }
-
+    //Token
     @PostMapping("/refresh")
     public ResponseEntity<AuthResponseDTO> refresh(HttpServletRequest request) {
 
@@ -74,6 +56,18 @@ public class AuthController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, buildRefreshCookie(tokens.refreshToken()).toString())
                 .body(new AuthResponseDTO(tokens.accessToken()));
+    }
+
+    //Login - Logout - Register
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponseDTO> login(
+            @RequestBody @Valid LoginRequestDTO request
+    ) {
+        AuthTokens token = authService.login(request);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, buildRefreshCookie(token.refreshToken()).toString())
+                .body(new AuthResponseDTO(token.accessToken()));
     }
 
     @PostMapping("/logout")
@@ -100,4 +94,14 @@ public class AuthController {
                 .header(HttpHeaders.SET_COOKIE, clearCookie.toString())
                 .body("Logout realizado com sucesso");
     }
+
+
+    @PostMapping("/register")
+    public ResponseEntity<String> register(
+            @RequestBody @Valid UserRequestDTO request
+    ) {
+        authService.register(request);
+        return ResponseEntity.ok("Usuário cadastrado com sucesso");
+    }
+
 }

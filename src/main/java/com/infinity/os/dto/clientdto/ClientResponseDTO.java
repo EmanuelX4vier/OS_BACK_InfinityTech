@@ -1,6 +1,6 @@
 package com.infinity.os.dto.clientdto;
 
-import com.fasterxml.jackson.annotation.JsonFormat; // IMPORTANTE
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.infinity.os.dto.equipdto.EquipResponseDTO;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -18,7 +18,7 @@ public class ClientResponseDTO {
     private String endereco;
     private List<EquipResponseDTO> equips;
 
-    // ESSA ANOTAÇÃO MATA O ERRO 500 NA LISTAGEM E NA BUSCA POR ID
+    //ESSA ANOTAÇÃO MATA O ERRO 500 NA LISTAGEM E NA BUSCA POR ID
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime dataCadastro;
 }
