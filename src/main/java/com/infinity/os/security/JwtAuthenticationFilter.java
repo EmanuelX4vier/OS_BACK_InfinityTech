@@ -1,5 +1,6 @@
 package com.infinity.os.security;
 
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,36 +40,49 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 3. remove "Bearer "
         String token = authHeader.substring(7);
 
-        // 4. extrai email do token
-        String email = jwtService.extractEmail(token);
+        try {
+            // 4. extrai email do token
+            String email = jwtService.extractEmail(token);
 
-        // 5. se já estiver autenticado, não faz nada
-        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            // 5. se já estiver autenticado, não faz nada
+            if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
-            // 6. valida token
-            if (jwtService.isTokenValid(token, userDetails)) {
+                // 6. valida token
+                if (jwtService.isTokenValid(token, userDetails)) {
 
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails,
-                                null,
-                                userDetails.getAuthorities()
-                        );
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(
+                                    userDetails,
+                                    null,
+                                    userDetails.getAuthorities()
+                            );
 
-                // 7. coloca usuário no Spring Security
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-            }else{
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.setContentType("application/json");
-                // JSON válido
-                response.getWriter().write("{\"error\": \"Token inválido ou expirado\"}");
-                return;
+                    // 7. coloca usuário no Spring Security
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }else{
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    response.setContentType("application/json");
+                    // JSON válido
+                    response.getWriter().write("{\"error\": \"Token inválido ou expirado\"}");
+                    return;
+                }
             }
+        }catch (JwtException e){
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"error\": \"Token inválido ou expirado\"}");
+            return;
+        }catch (IllegalArgumentException e){
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"error\": \"Token inválido ou expirado\"}");
+            return;
         }
 
         // continua request
         filterChain.doFilter(request, response);
     }
+
 }
