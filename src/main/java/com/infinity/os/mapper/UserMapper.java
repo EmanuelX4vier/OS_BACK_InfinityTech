@@ -14,7 +14,7 @@ public class UserMapper {
     private final PasswordEncoder passwordEncoder;
 
     public User toEntity (UserRequestDTO dto){
-        User user = User.builder().nome(dto.getNome()).email(dto.getEmail()).senha(dto.getSenha()).funcao(dto.getFuncao()).build();
+        User user = User.builder().nome(dto.getNome()).email(dto.getEmail()).senha(passwordEncoder.encode(dto.getSenha())).funcao(dto.getFuncao()).build();
         return user;
     }
 
