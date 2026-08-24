@@ -47,15 +47,15 @@ public class AuthService {
     //Login - Logout - Register
     public AuthTokens login(LoginRequestDTO request) {
 
-        User user = userRepository.findByEmail(request.email().toLowerCase())
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-
-        Authentication authentication = authenticationManager.authenticate(
+        authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.email().toLowerCase(),
                         request.senha()
                 )
         );
+
+        User user = userRepository.findByEmail(request.email().toLowerCase())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
         String accessToken = jwtService.generateToken(user.getEmail().toLowerCase());
         refreshTokenService.revokeAllByUser(user);
