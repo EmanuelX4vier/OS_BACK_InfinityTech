@@ -8,6 +8,7 @@ import com.infinity.os.entity.User;
 import com.infinity.os.exception.EmailAlreadyExistsException;
 import com.infinity.os.repository.UserRepository;
 import com.infinity.os.security.JwtService;
+import com.infinity.os.service.refresh.RefreshTokenResult;
 import com.infinity.os.service.refresh.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -40,10 +41,9 @@ public class AuthService {
         String newAccessToken = jwtService.generateToken(user.getEmail().toLowerCase());
 
         refreshTokenService.revokeToken(refreshToken);
-        //refreshTokenService.deleteToken(refreshToken);
-        RefreshToken newRefreshToken = refreshTokenService.createRefreshToken(user);
+        RefreshTokenResult newRefreshTokenResult = refreshTokenService.createRefreshToken(user);
 
-        return new AuthTokens(newAccessToken, newRefreshToken.getToken());
+        return new AuthTokens(newAccessToken, newRefreshTokenResult.token());
     }
 
     //Login - Logout - Register
@@ -61,11 +61,11 @@ public class AuthService {
 
         String accessToken = jwtService.generateToken(user.getEmail().toLowerCase());
         refreshTokenService.revokeAllByUser(user);
-        RefreshToken refreshToken = refreshTokenService.createRefreshToken(user);
+        RefreshTokenResult refreshTokenResult = refreshTokenService.createRefreshToken(user);
 
         return new AuthTokens(
                 accessToken,
-                refreshToken.getToken()
+                refreshTokenResult.token()
         );
     }
 

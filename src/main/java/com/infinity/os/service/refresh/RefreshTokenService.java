@@ -11,8 +11,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.HexFormat;
 import java.util.UUID;
 
 @Service
@@ -24,21 +29,39 @@ public class RefreshTokenService {
     @Value("${jwt.refresh-token-expiration-days:7}")
     private long refreshTokenDurationDays;
 
-    public RefreshToken createRefreshToken(User user) {
+    //Metodo para salvar o RefreshToken em hash no DB.
+    private String hashRefreshToken(String token){
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(token.getBytes(StandardCharsets.UTF_8));
+            String hashHex = HexFormat.of().formatHex(hash);
+            return hashHex;
+
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public RefreshTokenResult createRefreshToken(User user) {
+
+        String token = UUID.randomUUID().toString();
 
         RefreshToken refreshToken = RefreshToken.builder()
                 .user(user)
-                .token(UUID.randomUUID().toString())
+                .token(hashRefreshToken(token))
                 .expiresAt(Instant.now().plus(refreshTokenDurationDays, ChronoUnit.DAYS))
                 .revoked(false)
                 .build();
 
-        return repository.save(refreshToken);
+        RefreshToken tokenDb = repository.save(refreshToken);
+        return new RefreshTokenResult(tokenDb, token);
     }
 
     public RefreshToken validateToken(String token) {
 
-        RefreshToken refreshToken = repository.findByToken(token)
+        String tokenHash = hashRefreshToken(token);
+
+        RefreshToken refreshToken = repository.findByToken(tokenHash)
                 .orElseThrow(RefreshTokenNaoEncontradoException::new);
 
         if (refreshToken.isRevoked()) {
@@ -54,13 +77,15 @@ public class RefreshTokenService {
 
     public void revokeToken(String token) {
 
-        // CORRIGIDO: usa exceção customizada
-        RefreshToken refreshToken = repository.findByToken(token)
+        String tokenHash = hashRefreshToken(token);
+        RefreshToken refreshToken = repository.findByToken(tokenHash)
                 .orElseThrow(RefreshTokenNaoEncontradoException::new);
 
         refreshToken.setRevoked(true);
         repository.save(refreshToken);
     }
+
+
 
     @Transactional
     public void revokeAllByUser(User user) {
