@@ -46,7 +46,7 @@ public class SecurityConfig {
                         )
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/register").hasRole(Functions.ADM.toString())
+                        .requestMatchers("/auth/register").hasRole(Functions.ADM.name())
                         .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
