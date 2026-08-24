@@ -16,6 +16,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Locale;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -35,7 +37,7 @@ public class AuthService {
         User user = token.getUser();
 
         //Gera novo acesso token
-        String newAccessToken = jwtService.generateToken(user.getEmail());
+        String newAccessToken = jwtService.generateToken(user.getEmail().toLowerCase());
 
         refreshTokenService.revokeToken(refreshToken);
         //refreshTokenService.deleteToken(refreshToken);
@@ -47,18 +49,17 @@ public class AuthService {
     //Login - Logout - Register
     public AuthTokens login(LoginRequestDTO request) {
 
+        User user = userRepository.findByEmail(request.email().toLowerCase())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.email(),
+                        request.email().toLowerCase(),
                         request.senha()
                 )
         );
 
-        User user = userRepository.findByEmail(request.email())
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-
-
-        String accessToken = jwtService.generateToken(user.getEmail());
+        String accessToken = jwtService.generateToken(user.getEmail().toLowerCase());
         refreshTokenService.revokeAllByUser(user);
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(user);
 
@@ -75,13 +76,13 @@ public class AuthService {
 
     public void register(UserRequestDTO request) {
 
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+        if (userRepository.findByEmail(request.getEmail().toLowerCase()).isPresent()) {
             throw new EmailAlreadyExistsException();
         }
 
         User user = User.builder()
                 .nome(request.getNome())
-                .email(request.getEmail())
+                .email(request.getEmail().toLowerCase())
                 .senha(passwordEncoder.encode(request.getSenha()))
                 .funcao(request.getFuncao())
                 .build();
