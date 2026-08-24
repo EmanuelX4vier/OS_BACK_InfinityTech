@@ -6,6 +6,7 @@ import com.infinity.os.dto.userdto.UserRequestDTO;
 import com.infinity.os.entity.RefreshToken;
 import com.infinity.os.entity.User;
 import com.infinity.os.exception.EmailAlreadyExistsException;
+import com.infinity.os.exception.UserNotFoundException;
 import com.infinity.os.repository.UserRepository;
 import com.infinity.os.security.JwtService;
 import com.infinity.os.service.refresh.RefreshTokenResult;
@@ -13,7 +14,6 @@ import com.infinity.os.service.refresh.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +55,7 @@ public class AuthService {
         );
 
         User user = userRepository.findByEmail(request.email().toLowerCase())
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(UserNotFoundException::new);
 
         String accessToken = jwtService.generateToken(user.getEmail().toLowerCase());
         refreshTokenService.revokeAllByUser(user);
