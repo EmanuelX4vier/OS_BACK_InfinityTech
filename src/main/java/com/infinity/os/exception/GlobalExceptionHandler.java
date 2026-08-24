@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(RefreshTokenRevogadoException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
+        @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public Map<String, String> handleRefreshTokenRevogado(RuntimeException ex) {
         Map<String, String> error = new HashMap<>();
         error.put("error", ex.getMessage());
