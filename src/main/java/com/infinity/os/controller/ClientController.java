@@ -3,7 +3,7 @@ package com.infinity.os.controller;
 import com.infinity.os.dto.clientdto.ClientRequestDTO;
 import com.infinity.os.dto.clientdto.ClientResponseDTO;
 import com.infinity.os.dto.clientdto.ClientUpdateDTO;
-import com.infinity.os.service.client.ClientServiceImpl;
+import com.infinity.os.service.client.ClientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ClientController {
 
-    private final ClientServiceImpl clientService;
+    private final ClientService clientService;
 
     //CRUD
     //Create
@@ -33,12 +33,6 @@ public class ClientController {
     public ResponseEntity<ClientResponseDTO> searchClient(@PathVariable Long clientId) {
         ClientResponseDTO client = clientService.searchClient(clientId);
         return ResponseEntity.ok(client);
-    }
-
-    @GetMapping
-    public ResponseEntity<Page<ClientResponseDTO>> listClient(@PageableDefault(size = 20, sort = "nome") Pageable pageable) {
-        Page<ClientResponseDTO> pagina = clientService.listClient(pageable);
-        return ResponseEntity.ok(pagina);
     }
 
     //Update
@@ -56,5 +50,13 @@ public class ClientController {
     @DeleteMapping("/{clientId}")
     public void deleteClient(@PathVariable Long clientId) {
         clientService.deleteClient(clientId);
+    }
+
+    //Others
+
+    @GetMapping
+    public ResponseEntity<Page<ClientResponseDTO>> listClient(@PageableDefault(size = 20, sort = "nome") Pageable pageable) {
+        Page<ClientResponseDTO> pagina = clientService.listClient(pageable);
+        return ResponseEntity.ok(pagina);
     }
 }

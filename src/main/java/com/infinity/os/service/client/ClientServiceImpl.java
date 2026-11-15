@@ -35,9 +35,6 @@ public class ClientServiceImpl implements ClientService {
         return clientMapper.toResponseDTO(client);
     }
 
-    public Page<ClientResponseDTO> listClient(Pageable pageable) {
-        return clientRepository.findAll(pageable).map(clientMapper::toResponseDTO);
-    }
 
     //Update
     @Override
@@ -66,5 +63,12 @@ public class ClientServiceImpl implements ClientService {
             throw new ClientNotFoundException();
         }
         clientRepository.deleteById(id);
+    }
+
+    //Others
+
+    @Override
+    public Page<ClientResponseDTO> listClient(Pageable pageable) {
+        return clientRepository.findAll(pageable).map(clientMapper::toResponseDTO);
     }
 }
