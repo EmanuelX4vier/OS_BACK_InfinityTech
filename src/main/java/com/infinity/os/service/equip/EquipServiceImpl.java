@@ -3,7 +3,6 @@ package com.infinity.os.service.equip;
 import com.infinity.os.dto.equipdto.EquipRequestDTO;
 import com.infinity.os.dto.equipdto.EquipResponseDTO;
 import com.infinity.os.dto.equipdto.EquipUpdateDTO;
-import com.infinity.os.dto.produdto.ProduResponseDTO;
 import com.infinity.os.entity.Client;
 import com.infinity.os.entity.Equip;
 import com.infinity.os.exception.ClientNotFoundException;
@@ -48,12 +47,6 @@ public class EquipServiceImpl implements EquipService {
         return equipMapper.toResponseDTO(equip);
     }
 
-    public Page<EquipResponseDTO> listEquip(Pageable pageable){
-        return equipRepository.findAll(pageable).map(equipMapper
-
-                ::toResponseDTO);
-
-    }
 
     //Update
     @Override
@@ -84,4 +77,15 @@ public class EquipServiceImpl implements EquipService {
 
         equipRepository.deleteById(serial);
     }
+
+    //Others
+
+    @Override
+    public Page<EquipResponseDTO> listEquip(Pageable pageable){
+        return equipRepository.findAll(pageable).map(equipMapper
+
+                ::toResponseDTO);
+
+    }
+
 }

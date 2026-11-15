@@ -3,7 +3,7 @@ package com.infinity.os.controller;
 import com.infinity.os.dto.equipdto.EquipRequestDTO;
 import com.infinity.os.dto.equipdto.EquipResponseDTO;
 import com.infinity.os.dto.equipdto.EquipUpdateDTO;
-import com.infinity.os.service.equip.EquipServiceImpl;
+import com.infinity.os.service.equip.EquipService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class EquipController {
 
-    private final EquipServiceImpl equipService;
+    private final EquipService equipService;
 
     //CRUD
     //Create
@@ -29,18 +29,12 @@ public class EquipController {
         return ResponseEntity.status(201).body(created);
     }
 
+    //Read
     @GetMapping("/{serial}")
     public ResponseEntity<EquipResponseDTO> searchEquip(@PathVariable String serial) {
 
         EquipResponseDTO equip = equipService.searchEquip(serial);
         return ResponseEntity.ok(equip);
-    }
-
-    //Read
-    @GetMapping
-    public ResponseEntity<Page<EquipResponseDTO>> listEquip(@PageableDefault(size = 20, sort = "serial") Pageable pageable) {
-        Page<EquipResponseDTO> pagina = equipService.listEquip(pageable);
-        return ResponseEntity.ok(pagina);
     }
 
     //Update
@@ -56,5 +50,13 @@ public class EquipController {
     @DeleteMapping("/{serial}")
     public void deleteEquip(@PathVariable String serial) {
         equipService.deleteEquip(serial);
+    }
+
+    //Others
+
+    @GetMapping
+    public ResponseEntity<Page<EquipResponseDTO>> listEquip(@PageableDefault(size = 20, sort = "serial") Pageable pageable) {
+        Page<EquipResponseDTO> pagina = equipService.listEquip(pageable);
+        return ResponseEntity.ok(pagina);
     }
 }
