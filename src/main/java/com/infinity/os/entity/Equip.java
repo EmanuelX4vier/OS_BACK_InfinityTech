@@ -32,7 +32,7 @@ public class Equip {
     @Column(name = "data_cadastro", nullable = false, updatable = false)
     private LocalDateTime dataCadastro;
 
-    @PrePersist //Ele roda antes do hibernate no banco.
+    @PrePersist //Ele roda antes dos insert's no banco.
     private void registrarCadastro(){
         this.dataCadastro = LocalDateTime.now();
     }
