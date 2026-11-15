@@ -7,6 +7,7 @@ import com.infinity.os.entity.RefreshToken;
 import com.infinity.os.entity.User;
 import com.infinity.os.exception.EmailAlreadyExistsException;
 import com.infinity.os.exception.UserNotFoundException;
+import com.infinity.os.mapper.UserMapper;
 import com.infinity.os.repository.UserRepository;
 import com.infinity.os.security.JwtService;
 import com.infinity.os.service.refresh.RefreshTokenResult;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
@@ -82,12 +84,7 @@ public class AuthServiceImpl implements AuthService {
             throw new EmailAlreadyExistsException();
         }
 
-        User user = User.builder()
-                .nome(request.getNome())
-                .email(request.getEmail().toLowerCase())
-                .senha(passwordEncoder.encode(request.getSenha()))
-                .funcao(request.getFuncao())
-                .build();
+        User user = userMapper.toEntity(request);
 
         userRepository.save(user);
     }

@@ -3,7 +3,7 @@ package com.infinity.os.service.refresh;
 import com.infinity.os.entity.RefreshToken;
 import com.infinity.os.entity.User;
 import com.infinity.os.exception.RefreshTokenExpiradoException;
-import com.infinity.os.exception.RefreshTokenNaoEncontradoException;
+import com.infinity.os.exception.RefreshTokenNotFound;
 import com.infinity.os.exception.RefreshTokenRevogadoException;
 import com.infinity.os.repository.RefreshTokenRepository;
 import jakarta.transaction.Transactional;
@@ -62,7 +62,7 @@ public class RefreshTokenService {
         String tokenHash = hashRefreshToken(token);
 
         RefreshToken refreshToken = repository.findByToken(tokenHash)
-                .orElseThrow(RefreshTokenNaoEncontradoException::new);
+                .orElseThrow(RefreshTokenNotFound::new);
 
         if (refreshToken.isRevoked()) {
             throw new RefreshTokenRevogadoException();
@@ -79,7 +79,7 @@ public class RefreshTokenService {
 
         String tokenHash = hashRefreshToken(token);
         RefreshToken refreshToken = repository.findByToken(tokenHash)
-                .orElseThrow(RefreshTokenNaoEncontradoException::new);
+                .orElseThrow(RefreshTokenNotFound::new);
 
         refreshToken.setRevoked(true);
         repository.save(refreshToken);

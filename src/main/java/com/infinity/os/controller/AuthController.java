@@ -4,7 +4,7 @@ import com.infinity.os.dto.authdto.AuthResponseDTO;
 import com.infinity.os.dto.authdto.AuthTokens;
 import com.infinity.os.dto.authdto.LoginRequestDTO;
 import com.infinity.os.dto.userdto.UserRequestDTO;
-import com.infinity.os.exception.RefreshTokenNaoEncontradoException;
+import com.infinity.os.exception.RefreshTokenNotFound;
 import com.infinity.os.service.auth.AuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,7 +48,7 @@ public class AuthController {
                 .filter(cookie -> cookie.getName().equals("refreshToken"))
                 .findFirst()
                 .map(Cookie::getValue)
-                .orElseThrow(RefreshTokenNaoEncontradoException::new);
+                .orElseThrow(RefreshTokenNotFound::new);
 
         AuthTokens tokens = authService.refreshToken(refreshToken);
 
@@ -77,7 +77,7 @@ public class AuthController {
                 .filter(c -> c.getName().equals("refreshToken"))
                 .findFirst()
                 .map(Cookie::getValue)
-                .orElseThrow(RefreshTokenNaoEncontradoException::new);
+                .orElseThrow(RefreshTokenNotFound::new);
 
         authService.logout(refreshToken);
 

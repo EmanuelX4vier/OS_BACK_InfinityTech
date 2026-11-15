@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
         return error;
     }
 
-    @ExceptionHandler(RefreshTokenNaoEncontradoException.class)
+    @ExceptionHandler(RefreshTokenNotFound.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public Map<String, String> handleRefreshTokenNaoEncontrado(RuntimeException ex) {
         Map<String, String> error = new HashMap<>();
